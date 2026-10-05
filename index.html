@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Alsoff Seim-Sii - เสี่ยงทายโชคชะตา</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Sky Blue background & Blue theme borders */
+      --bg-sky: #E0F2FE;
+      --border-blue: #0284C7;
+      --border-blue-subtle: rgba(2, 132, 199, 0.4);
+      --border-blue-strong: #0369A1;
+
+      /* Original Maroon & Gold theme elements */
+      --bg-card: #FFFFFF;
+      --primary-maroon: #7B1113;
+      --dark-maroon: #550A0B;
+      --deep-crimson: #93191C;
+      --gold-primary: #D4AF37;
+      --gold-light: #F7E7A9;
+      --gold-dark: #A57D18;
+      --text-main: #2A1718;
+      --text-muted: #6E5A5A;
+      --shadow-ambient: 0 12px 32px -4px rgba(2, 132, 199, 0.15), 0 4px 12px -2px rgba(85, 10, 11, 0.06);
+      --shadow-floating: 0 20px 40px -8px rgba(2, 132, 199, 0.22);
+      --font-heading: 'Kanit', sans-serif;
+      --font-body: 'Sarabun', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg-sky);
+      background-image: 
+        radial-gradient(circle at 50% 10%, rgba(56, 189, 248, 0.32) 0%, transparent 65%),
+        radial-gradient(circle at 50% 90%, rgba(2, 132, 199, 0.20) 0%, transparent 60%),
+        repeating-linear-gradient(45deg, rgba(2, 132, 199, 0.03) 0px, rgba(2, 132, 199, 0.03) 2px, transparent 2px, transparent 8px);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      min-height: -webkit-fill-available;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      overflow-x: hidden;
+    }
+
+    .app-card {
+      width: 100%;
+      max-width: 430px;
+      min-height: 610px;
+      background: var(--bg-card);
+      border-radius: 28px;
+      box-shadow: var(--shadow-floating);
+      border: 2px solid var(--border-blue);
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Blue corner filigrees */
+    .app-card::before,
+    .app-card::after {
+      content: '';
+      position: absolute;
+      width: 36px;
+      height: 36px;
+      border: 2px solid var(--border-blue);
+      pointer-events: none;
+      opacity: 0.8;
+    }
+    .app-card::before {
+      top: 10px;
+      left: 10px;
+      border-right: none;
+      border-bottom: none;
+      border-top-left-radius: 14px;
+    }
+    .app-card::after {
+      bottom: 10px;
+      right: 10px;
+      border-left: none;
+      border-top: none;
+      border-bottom-right-radius: 14px;
+    }
+
+    /* Top Action Bar */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 8px;
+      z-index: 10;
+    }
+
+    .temple-motif {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.88rem;
+      color: var(--primary-maroon);
+      font-family: var(--font-heading);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    .icon-btn {
+      background: #FDF9F0;
+      border: 1px solid var(--border-blue-subtle);
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: var(--primary-maroon);
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      transition: transform 0.15s, background 0.2s;
+    }
+    .icon-btn:active {
+      transform: scale(0.92);
+      background: #F3EBD8;
+    }
+
+    .screen {
+      display: none;
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      animation: screenEnter 0.35s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+    }
+    .screen.active {
+      display: flex;
+    }
+
+    @keyframes screenEnter {
+      from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    h1, h2, h3 {
+      font-family: var(--font-heading);
+      color: var(--primary-maroon);
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .heading-large {
+      font-size: 2.3rem;
+      background: linear-gradient(135deg, var(--dark-maroon) 0%, var(--primary-maroon) 60%, var(--gold-dark) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 2px;
+    }
+
+    .heading-sub {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      color: var(--gold-dark);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    .ornament-separator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      margin: 6px 0 16px;
+    }
+    .ornament-separator span {
+      height: 1px;
+      flex: 1;
+      background: linear-gradient(90deg, transparent, var(--border-blue), transparent);
+    }
+    .lotus-symbol {
+      color: var(--gold-primary);
+      font-size: 1.3rem;
+      line-height: 1;
+    }
+
+    .prayer-card {
+      background: #FAF7F0;
+      border: 1.5px dashed var(--border-blue);
+      border-radius: 16px;
+      padding: 14px 18px;
+      margin: 10px 0 18px;
+      color: var(--text-muted);
+      font-size: 0.96rem;
+      line-height: 1.65;
+      width: 100%;
+      box-shadow: inset 0 2px 6px rgba(2, 132, 199, 0.04);
+    }
+
+    /* Slogan Banner under จิตที่สงบ Box */
+    .alsoff-banner {
+      width: 100%;
+      background: #F0F9FF;
+      border: 1.5px solid var(--border-blue);
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-bottom: 24px;
+      color: #0369A1;
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.12);
+    }
+
+    .alsoff-banner .line {
+      display: block;
+      line-height: 1.5;
+    }
+
+    .btn {
+      width: 100%;
+      min-height: 54px;
+      border: none;
+      border-radius: 16px;
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 600;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      user-select: none;
+      padding: 12px 20px;
+      transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-maroon {
+      background: linear-gradient(135deg, #8F171A 0%, #6E0E10 100%);
+      color: #FFFFFF;
+      border: 1px solid rgba(247, 231, 169, 0.35);
+      box-shadow: 0 8px 18px rgba(110, 14, 16, 0.26);
+    }
+    .btn-maroon:hover {
+      background: linear-gradient(135deg, #9C1A1E 0%, #791113 100%);
+      box-shadow: 0 10px 22px rgba(110, 14, 16, 0.32);
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, #E5C158 0%, #B88B19 100%);
+      color: #2D1A00;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 6px 18px rgba(184, 139, 25, 0.25);
+    }
+    .btn-gold:hover {
+      background: linear-gradient(135deg, #F0CC64 0%, #C49520 100%);
+    }
+
+    .btn-outline {
+      background: #FFFFFF;
+      color: var(--primary-maroon);
+      border: 1.8px solid var(--primary-maroon);
+      margin-top: 10px;
+      box-shadow: 0 3px 8px rgba(123, 17, 19, 0.08);
+    }
+    .btn-outline:hover {
+      background: #FCF4F4;
+    }
+
+    .cylinder-stage {
+      position: relative;
+      width: 180px;
+      height: 230px;
+      margin: 10px auto 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      perspective: 700px;
+    }
+
+    .cylinder-assembly {
+      position: relative;
+      width: 120px;
+      height: 165px;
+      transform-origin: bottom center;
+      transition: transform 0.12s ease-out;
+      will-change: transform;
+    }
+
+    /* Maroon Cylinder with Gold Bands */
+    .bamboo-body {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 155px;
+      background: linear-gradient(135deg, #781215 0%, #580B0D 55%, #3B0406 100%);
+      border-radius: 18px 18px 24px 24px;
+      border: 2px solid var(--gold-primary);
+      box-shadow: 
+        inset 4px 0 12px rgba(255, 255, 255, 0.18),
+        inset -8px 0 16px rgba(0, 0, 0, 0.65),
+        0 16px 30px rgba(60, 6, 8, 0.35);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      z-index: 6;
+      overflow: hidden;
+    }
+
+    .bamboo-body::before,
+    .bamboo-body::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 12px;
+      background: linear-gradient(90deg, #A88120 0%, #FCE8A4 45%, #F0C450 55%, #9B7415 100%);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+    }
+    .bamboo-body::before { top: 26px; }
+    .bamboo-body::after { bottom: 26px; }
+
+    .gold-seal {
+      width: 48px;
+      height: 48px;
+      background: radial-gradient(circle, #FDE69D 0%, #D4AF37 70%, #9E7B1A 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #4A080A;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1.15rem;
+      border: 1.5px solid #FFFFFF;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      z-index: 7;
+    }
+
+    /* Red/Golden Sticks */
+    .sticks-nest {
+      position: absolute;
+      top: -24px;
+      width: 90px;
+      height: 120px;
+      display: flex;
+      justify-content: center;
+      z-index: 3;
+    }
+
+    .stick {
+      position: absolute;
+      bottom: 0;
+      width: 8px;
+      background: linear-gradient(180deg, #A81B1F 0%, #A81B1F 22%, #ECD7AA 23%, #D3B370 100%);
+      border-radius: 4px 4px 1px 1px;
+      box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.35);
+      transform-origin: bottom center;
+      transition: transform 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    }
+
+    .st-1 { height: 110px; transform: rotate(-15deg) translateX(-22px); }
+    .st-2 { height: 122px; transform: rotate(-8deg) translateX(-11px); }
+    .st-3 { height: 130px; transform: rotate(0deg); }
+    .st-4 { height: 124px; transform: rotate(7deg) translateX(11px); }
+    .st-5 { height: 112px; transform: rotate(14deg) translateX(22px); }
+    .st-6 { height: 118px; transform: rotate(-4deg) translateX(-5px); }
+    .st-7 { height: 126px; transform: rotate(3deg) translateX(6px); }
+
+    .ejected-stick {
+      position: absolute;
+      bottom: 0;
+      width: 12px;
+      height: 145px;
+      background: linear-gradient(180deg, #9C1418 0%, #9C1418 20%, #FDF1D1 21%, #E5C384 100%);
+      border: 1.5px solid var(--gold-primary);
+      border-radius: 6px 6px 2px 2px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 5px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+      transform: translateY(30px);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.75s cubic-bezier(0.18, 0.89, 0.32, 1.28), opacity 0.3s;
+    }
+    .ejected-stick.active {
+      opacity: 1;
+      transform: translateY(-92px) scale(1.15);
+    }
+    .ejected-stick .stick-number {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      font-family: var(--font-heading);
+      line-height: 1;
+    }
+
+    .shake-active {
+      animation: physicalShake 0.32s ease-in-out infinite;
+    }
+    @keyframes physicalShake {
+      0% { transform: rotate(0deg) translateY(0); }
+      20% { transform: rotate(-10deg) translateY(-5px) scale(1.02); }
+      40% { transform: rotate(10deg) translateY(3px); }
+      60% { transform: rotate(-7deg) translateY(-3px); }
+      80% { transform: rotate(7deg) translateY(2px); }
+      100% { transform: rotate(0deg) translateY(0); }
+    }
+
+    .progress-track {
+      width: 100%;
+      background: #ECE6D8;
+      height: 14px;
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 12px 0 8px;
+      border: 1px solid var(--border-blue-subtle);
+      position: relative;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #D4AF37 0%, #D84247 60%, #7B1113 100%);
+      border-radius: 999px;
+      transition: width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .shake-counter {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      color: var(--primary-maroon);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .sensor-status-bar {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #F4EFE2;
+      border: 1px solid var(--border-blue-subtle);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #9E9E9E;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .status-dot.active {
+      background: #2E7D32;
+      box-shadow: 0 0 8px #4CAF50;
+      transform: scale(1.2);
+    }
+
+    .ios-permission-banner {
+      display: none;
+      width: 100%;
+      background: #FFF9E6;
+      border: 1.5px solid var(--border-blue);
+      border-radius: 14px;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      color: #6A4B00;
+      font-family: var(--font-heading);
+      margin-bottom: 10px;
+      cursor: pointer;
+      text-align: center;
+      font-weight: 500;
+      animation: pulseAlert 1.5s infinite;
+    }
+    @keyframes pulseAlert {
+      0%, 100% { box-shadow: 0 0 0 rgba(2, 132, 199, 0); }
+      50% { box-shadow: 0 0 12px rgba(2, 132, 199, 0.4); }
+    }
+
+    .result-sheet {
+      width: 100%;
+      background: #FFFFFF;
+      border-radius: 20px;
+      border: 2px solid var(--border-blue);
+      box-shadow: 0 12px 28px rgba(2, 132, 199, 0.12);
+      padding: 20px 16px;
+      text-align: center;
+      margin: 10px 0;
+      position: relative;
+    }
+    .result-sheet::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--primary-maroon), var(--gold-primary), var(--primary-maroon));
+      border-radius: 18px 18px 0 0;
+    }
+
+    .badge-number {
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--dark-maroon);
+      margin-bottom: 6px;
+      display: inline-block;
+    }
+
+    .fortune-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 20px;
+      border-radius: 999px;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1.3rem;
+      margin-bottom: 14px;
+    }
+    .fortune-good {
+      background: #E8F5E9;
+      color: #1B5E20;
+      border: 1.5px solid #81C784;
+    }
+    .fortune-neutral {
+      background: #FFF8E1;
+      color: #A06D00;
+      border: 1.5px solid #FFD54F;
+    }
+    .fortune-bad {
+      background: #FDF1F1;
+      color: #9C1B20;
+      border: 1.5px solid #F2A2A6;
+    }
+
+    .content-box {
+      text-align: left;
+      background: #FAF8F3;
+      border-radius: 14px;
+      padding: 13px 15px;
+      margin-bottom: 12px;
+      border-left: 4px solid var(--gold-primary);
+      border: 1px solid var(--border-blue-subtle);
+      border-left-width: 4px;
+    }
+    .content-box.advice-style {
+      border-left-color: var(--primary-maroon);
+      background: #FCF9F6;
+    }
+    .box-caption {
+      font-family: var(--font-heading);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .box-body-text {
+      font-size: 0.98rem;
+      color: var(--text-main);
+      line-height: 1.62;
+    }
+
+    .blessing-glow {
+      font-size: 3.6rem;
+      margin: 20px 0 10px;
+      animation: floatBlessing 2.2s infinite ease-in-out;
+    }
+    @keyframes floatBlessing {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .blessing-title {
+      font-size: 1.6rem;
+      color: var(--primary-maroon);
+      margin-bottom: 10px;
+    }
+    .blessing-description {
+      font-size: 1.02rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <main class="app-card" id="appCard">
+    
+    <!-- Top Bar Navigation & Sound Toggle -->
+    <header class="top-bar">
+      <div class="temple-motif">
+        <span>☸️</span>
+        <span>Alsoff Seim-Sii</span>
+      </div>
+      <button class="icon-btn" id="btnSoundToggle" aria-label="เปิดหรือปิดเสียงจำลอง">
+        <span id="soundIcon">🔊</span>
+      </button>
+    </header>
+
+    <!-- ============================================== -->
+    <!-- SCREEN 1: HOME SCREEN                          -->
+    <!-- ============================================== -->
+    <section id="home-screen" class="screen active" aria-labelledby="homeTitle">
+      <div>
+        <div class="ornament-separator">
+          <span></span>
+          <div class="lotus-symbol">🪷</div>
+          <span></span>
+        </div>
+        <h1 class="heading-large" id="homeTitle">Alsoff Seim-Sii</h1>
+        <p class="heading-sub">เสี่ยงทายโชคชะตาโบราณ</p>
+      </div>
+
+      <div class="cylinder-stage">
+        <div class="cylinder-assembly">
+          <div class="sticks-nest">
+            <div class="stick st-1"></div>
+            <div class="stick st-2"></div>
+            <div class="stick st-3"></div>
+            <div class="stick st-4"></div>
+            <div class="stick st-5"></div>
+            <div class="stick st-6"></div>
+            <div class="stick st-7"></div>
+          </div>
+          <div class="bamboo-body">
+            <div class="gold-seal">๒๘</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="prayer-card">
+        “ตั้งจิตให้สงบ เพ่งจิตอธิษฐาน<br>
+        นึกถึงสิ่งดีงาม แล้วเริ่มเขย่าเซียมซี”
+      </div>
+
+      <button id="btnStart" class="btn btn-maroon" aria-label="เริ่มเสี่ยงเซียมซี">
+        <span>เริ่มเสี่ยงเซียมซี</span>
+        <span>🎋</span>
+      </button>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SCREEN 2: SHAKE SCREEN                         -->
+    <!-- ============================================== -->
+    <section id="shake-screen" class="screen" aria-labelledby="shakeTitle">
+      <div>
+        <div class="ornament-separator">
+          <span></span>
+          <div class="lotus-symbol">☸️</div>
+          <span></span>
+        </div>
+        <h2 class="heading-large" id="shakeTitle" style="font-size: 1.8rem;">ตั้งจิตให้นิ่ง...</h2>
+        <p class="heading-sub" id="shakeSubtitle">เขย่าโทรศัพท์ 4–5 ครั้ง</p>
+      </div>
+
+      <!-- iOS Sensor Permission Prompt -->
+      <button id="btnIosPermission" class="ios-permission-banner">
+        📲 แตะที่นี่เพื่อเปิดระบบเซ็นเซอร์เขย่าโทรศัพท์
+      </button>
+
+      <!-- Visual Stage with Realtime Tilting & Ejecting Stick -->
+      <div class="cylinder-stage">
+        <div class="ejected-stick" id="ejectedStick">
+          <span class="stick-number" id="ejectedStickNumber">?</span>
+        </div>
+
+        <div class="cylinder-assembly" id="shakeAssembly">
+          <div class="sticks-nest" id="sticksNest">
+            <div class="stick st-1"></div>
+            <div class="stick st-2"></div>
+            <div class="stick st-3"></div>
+            <div class="stick st-4"></div>
+            <div class="stick st-5"></div>
+            <div class="stick st-6"></div>
+            <div class="stick st-7"></div>
+          </div>
+          <div class="bamboo-body">
+            <div class="gold-seal">เซียมซี</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="width: 100%;">
+        <!-- Realtime Live Sensor Activity Badge -->
+        <div class="sensor-status-bar">
+          <span class="status-dot" id="sensorStatusDot"></span>
+          <span id="sensorStatusText">เซ็นเซอร์ตรวจจับการเคลื่อนไหวพร้อมทำงาน</span>
+        </div>
+
+        <!-- Shake Progress Bar & Counter -->
+        <div class="progress-track">
+          <div class="progress-fill" id="shakeProgressFill"></div>
+        </div>
+        <div class="shake-counter" id="shakeCountText">เขย่าแล้ว 0 / 5</div>
+
+        <!-- Fallback Tap Button -->
+        <button id="btnTapShake" class="btn btn-gold" aria-label="แตะเพื่อเขย่า">
+          <span>แตะเพื่อเขย่า</span>
+          <span>✨</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SCREEN 3: RESULT SCREEN                        -->
+    <!-- ============================================== -->
+    <section id="result-screen" class="screen" aria-labelledby="resultStickNum">
+      <div style="width: 100%;">
+        <span class="badge-number" id="resultStickNum">เซียมซีใบที่ ๑</span>
+        <br>
+        <div class="fortune-pill" id="resultPill">
+          <span id="resultPillIcon">✨</span>
+          <span id="resultPillText">ดวงดี</span>
+        </div>
+      </div>
+
+      <div class="result-sheet">
+        <div class="content-box">
+          <div class="box-caption">
+            <span>📜</span> คำทำนาย
+          </div>
+          <p class="box-body-text" id="resultText">-</p>
+        </div>
+
+        <div class="content-box advice-style">
+          <div class="box-caption">
+            <span>💡</span> คำแนะนำ
+          </div>
+          <p class="box-body-text" id="resultAdvice">-</p>
+        </div>
+      </div>
+
+      <div style="width: 100%;">
+        <button id="btnAccept" class="btn btn-maroon" aria-label="ยอมรับคำทำนายนี้">
+          <span>ยอมรับคำทำนาย</span>
+          <span>🙏</span>
+        </button>
+        <button id="btnRetry" class="btn btn-outline" aria-label="เสี่ยงเซียมซีใหม่">
+          <span>เสี่ยงเซียมซีใหม่</span>
+          <span>🔄</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SCREEN 4: ACCEPTED SCREEN                      -->
+    <!-- ============================================== -->
+    <section id="accepted-screen" class="screen" aria-labelledby="acceptedTitle">
+      <div class="ornament-separator">
+        <span></span>
+        <div class="lotus-symbol">🪷</div>
+        <span></span>
+      </div>
+
+      <div class="blessing-glow">🙏</div>
+      <h2 class="blessing-title" id="acceptedTitle">สาธุ ขอให้เป็นมงคล</h2>
+
+      <p class="blessing-description">
+        ขอให้คำทำนายนี้เป็นกำลังใจให้คุณ<br>
+        ตั้งมั่นในความดี มีสติครองตนในทุกย่างก้าว<br>
+        ขอให้พบเจอแต่สิ่งดี ๆ เข้ามาในชีวิต 🙏
+      </p>
+
+      <!-- จิตที่สงบ Box -->
+      <div class="prayer-card" style="margin-bottom: 12px;">
+        “จิตที่สงบย่อมเห็นทางสว่าง<br>
+        ทำดีด้วยใจ ผลบุญย่อมตามรักษา”
+      </div>
+
+      <!-- Words added under the "จิตที่สงบ" box -->
+      <div class="alsoff-banner">
+        <span class="line"><span>🛡️</span> Keep ALSOFF Always Safe</span>
+        <span class="line">By Alcohol Alsoff</span>
+      </div>
+
+      <button id="btnHome" class="btn btn-maroon" aria-label="กลับสู่หน้าหลัก">
+        <span>กลับหน้าหลัก</span>
+        <span>🏠</span>
+      </button>
+    </section>
+
+  </main>
+
+  <script>
+    /**
+     * AUTHENTIC 28 FORTUNE STICKS
+     */
+    const fortunes = [
+      {
+        number: 1,
+        type: "good",
+        title: "ดวงดี",
+        text: "ดุจดั่งสุริยาเริ่มส่องแสงฟ้าสว่าง สิ่งที่ตั้งใจไว้จะสำเร็จลุล่วง ผู้ใหญ่เมตตาอุปถัมภ์ การเงินการงานคล่องตัว มีเกณฑ์ได้ลาภลอยหรือข่าวดี",
+        advice: "อย่าปล่อยให้ความลังเลบดบังโอกาสอันเป็นมงคล จงลงมือทำด้วยความซื่อสัตย์"
+      },
+      {
+        number: 3,
+        type: "good",
+        title: "ดวงดี",
+        text: "อุปสรรคที่เคยขวางกั้นเริ่มคลี่คลาย ทางสว่างเปิดออก การค้าการเจรจาประสบผลสำเร็จงดงาม ความรักชื่นมื่นคนรักคอยเป็นกำลังใจ",
+        advice: "น้อมรับคำแนะนำจากกัลยาณมิตร จะนำพาชีวิตให้ก้าวหน้ารุ่งเรืองยิ่งขึ้น"
+      },
+      {
+        number: 6,
+        type: "good",
+        title: "ดวงดี",
+        text: "ดาวมงคลส่องสว่าง ความรักลงตัวคนโสดมีเกณฑ์พบคู่แท้ที่มีศีลเสมอกัน การงานมีชื่อเสียงได้รับการยอมรับ สุขภาพกายใจสดชื่นแจ่มใส",
+        advice: "หมั่นแบ่งปันน้ำใจและดูแลคนใกล้ชิด ความเมตตาจะดึงดูดพลังบวกเข้ามา"
+      },
+      {
+        number: 8,
+        type: "good",
+        title: "ดวงดี",
+        text: "วาสนาพารวย การลงทุนหรือริเริ่มสิ่งใหม่จะมีผลตอบแทนคุ้มค่า เดินทางปลอดภัยไร้กังวล มีโชคจากทิศตะวันออก",
+        advice: "จัดสรรกำไรส่วนหนึ่งไปต่อยอด และอีกส่วนหนึ่งทำบุญเสริมบารมี"
+      },
+      {
+        number: 11,
+        type: "good",
+        title: "ดวงดี",
+        text: "การสอบแข่งขันหรือการสัมภาษณ์งานจะได้ข่าวดีเกินคาดหมาย ความขยันขันแข็งที่สะสมมาจะตอบแทนคุณอย่างสมเกียรติ",
+        advice: "รักษาความอ่อนน้อมถ่อมตน ความสง่างามที่แท้จริงคือความอ่อนโยนในใจ"
+      },
+      {
+        number: 14,
+        type: "good",
+        title: "ดวงดี",
+        text: "ความอบอุ่นในครอบครัวเต็มเปี่ยม ความกังวลใจเรื่องสุขภาพจะทุเลาเบาบาง มีโอกาสได้ลาภปากและพานพบญาติมิตรที่ถูกชะตา",
+        advice: "หาเวลาพักผ่อนใกล้ชิดธรรมชาติ เติมพลังชีวิตให้พร้อมก้าวสู่เป้าหมายใหม่"
+      },
+      {
+        number: 17,
+        type: "good",
+        title: "ดวงดี",
+        text: "มิตรภาพเกื้อหนุน จะได้พบหุ้นส่วนหรือเพื่อนร่วมงานที่มีคุณธรรม ชักนำไปสู่ลู่ทางทำกินใหม่ที่เจริญรุ่งเรือง",
+        advice: "จริงใจและรักษาคำมั่นสัญญาเป็นที่ตั้ง ความน่าเชื่อถือคือทรัพย์ล้ำค่าที่สุด"
+      },
+      {
+        number: 20,
+        type: "good",
+        title: "ดวงดี",
+        text: "การเงินไหลมาเทมา ปลดเปลื้องภาระกังวลได้สำเร็จ สิ่งที่เคยสูญหายมีเกณฑ์ได้คืน การงานลื่นไหลไร้คนขัดขวาง",
+        advice: "วางแผนการเงินอย่างรอบคอบ ไม่ประมาทในการใช้จ่ายแม้ยามมีเหลือเฟือ"
+      },
+      {
+        number: 24,
+        type: "good",
+        title: "ดวงดี",
+        text: "ชะตาพลิกฟื้นจากติดขัดกลับกลายเป็นราบรื่น สิ่งที่คิดว่าหลุดลอยจะหวนกลับมา บุญกุศลที่เคยสร้างไว้ส่งผลหนุนนำชีวิต",
+        advice: "เชื่อมั่นในคุณงามความดีของตนเอง สิ่งศักดิ์สิทธิ์ย่อมคุ้มครองคนคิดดีทำดี"
+      },
+      {
+        number: 28,
+        type: "good",
+        title: "ดวงดี",
+        text: "ยอดเยี่ยมบริบูรณ์ ความสุขสมหวังมาเยือนรอบด้าน ไร้ศัตรูหมู่มารแผ้วพาน ครอบครัวร่มเย็นเป็นสุข กิจการงานก้าวหน้าราบรื่น",
+        advice: "แผ่เมตตาและแบ่งปันความสุขแก่ผู้อื่น ความปีติในใจจะยิ่งเพิ่มพูน"
+      },
+      {
+        number: 2,
+        type: "neutral",
+        title: "ดวงปานกลาง",
+        text: "สายน้ำนิ่งไหลลึก ทุกอย่างยังดำเนินไปตามจังหวะปกติ ไม่หวือหวาแต่ก็ไม่ตกต่ำ การเงินพอมีพอกิน ยังไม่เหมาะแก่การเสี่ยงโชคใหญ่",
+        advice: "อดทนรอจังหวะเวลาที่เหมาะสม อย่าเพิ่งใจร้อนผลีผลามทำการใหญ่"
+      },
+      {
+        number: 4,
+        type: "neutral",
+        title: "ดวงปานกลาง",
+        text: "สภาพคล่องทางการเงินสมดุล รายรับรายจ่ายพอกล่อมกล่อม การงานเรื่อย ๆ แต่ต้องอาศัยความพยายามของตนเองเป็นหลัก พึ่งพาใครได้ยาก",
+        advice: "ประหยัดมัธยัสถ์และเก็บออมเงินสำรองไว้ ความขยันจะคุ้มครองคุณเอง"
+      },
+      {
+        number: 7,
+        type: "neutral",
+        title: "ดวงปานกลาง",
+        text: "ความสัมพันธ์ราบเรียบไม่มีเรื่องบาดหมาง การงานเสมอบัวไม่ช้ำน้ำไม่ขุ่น หากหวังการเลื่อนตำแหน่งอาจต้องรออีกระยะ",
+        advice: "เติมความกระตือรือร้นและหมั่นเรียนรู้สิ่งใหม่ ๆ เพื่อเตรียมพร้อมรับโอกาสหน้า"
+      },
+      {
+        number: 10,
+        type: "neutral",
+        title: "ดวงปานกลาง",
+        text: "การเดินทางปลอดภัยไร้อุปสรรคใหญ่ แต่ผลประโยชน์หรือสิ่งที่คาดหวังอาจได้รับเพียงกึ่งหนึ่ง อย่าเพิ่งหมดกำลังใจ",
+        advice: "รู้จักพอใจในสิ่งที่มีอยู่ ความโลภเกินกำลังอาจทำให้เสียสิ่งที่ควรได้"
+      },
+      {
+        number: 13,
+        type: "neutral",
+        title: "ดวงปานกลาง",
+        text: "ความรักเรียบง่ายเหมือนสายลม ควรรักษาความเข้าใจซึ่งกันและกัน ไม่ควรคาดหวังความสมบูรณ์แบบจากผู้อื่นจนเกินไป",
+        advice: "รับฟังคู่สนทนาด้วยใจเป็นกลาง ลดทิฐิลง จะช่วยให้จิตใจสงบเยือกเย็น"
+      },
+      {
+        number: 16,
+        type: "neutral",
+        title: "ดวงปานกลาง",
+        text: "การเจรจาหรือข้อตกลงต้องใช้เวลา ยังไม่เห็นผลในทันที แต่มีแนวโน้มก้าวหน้าอย่างช้า ๆ มั่นคง ไม่ควรเร่งรัด",
+        advice: "ทำงานด้วยความประณีตและซื่อตรง มาตรฐานที่ดีจะส่งผลสำเร็จในระยะยาว"
+      },
+      {
+        number: 19,
+        type: "neutral",
+        title: "ดวงปานกลาง",
+        text: "สุขภาพกายแข็งแรงดี แต่อาจมีความเหนื่อยล้าจากความจำเจในชีวิตประจำวัน เคราะห์ภัยใหญ่ไม่มีให้กังวล",
+        advice: "นอนหลับพักผ่อนให้เพียงพอ ทำสมาธิหรือผ่อนคลายอารมณ์เพื่อคืนความสดใส"
+      },
+      {
+        number: 22,
+        type: "neutral",
+        title: "ดวงปานกลาง",
+        text: "ข่าวสารที่รอคอยอาจล่าช้ากว่าที่กำหนด แต่จะมาถึงอย่างแน่นอน ไม่ต้องร้อนรนใจ สิ่งของที่ตามหาจะพบในที่ไม่คาดคิด",
+        advice: "ใช้เวลาช่วงนี้จัดระเบียบความคิดและเตรียมความพร้อมให้รอบด้าน"
+      },
+      {
+        number: 26,
+        type: "neutral",
+        title: "ดวงปานกลาง",
+        text: "สิ่งแวดล้อมรอบตัวมีความแปรปรวนเล็กน้อย แต่จุดยืนและสติของคุณยังมั่นคงดี เพื่อนร่วมงานอาจมีเรื่องขัดแย้งกันเอง",
+        advice: "วางตัวเป็นกลาง ไม่เอนเอียงไปตามคำนินทา รักษาความสงบในจิตใจไว้"
+      },
+      {
+        number: 5,
+        type: "bad",
+        title: "ดวงไม่ดี (ควรระวัง)",
+        text: "ดุจดั่งเรือแล่นเจอลมกรรโชก อาจมีเรื่องกวนใจกะทันหัน หรือมีรายจ่ายนอกแผนการที่หลีกเลี่ยงไม่ได้ อย่าเพิ่งลงทุนในสิ่งที่มีความเสี่ยงสูง",
+        advice: "ใช้สติกำกับทุกการกระทำ หลีกเลี่ยงการสร้างหนี้สินเพิ่มในระยะนี้"
+      },
+      {
+        number: 9,
+        type: "bad",
+        title: "ดวงไม่ดี (ควรระวัง)",
+        text: "ระวังคำพูดหวานหูหรือข้อเสนอที่ดูดีเกินจริง อาจมีคนแอบแฝงผลประโยชน์ ไม่ควรไว้ใจคนแปลกหน้าหรือให้ใครยืมทรัพย์สิน",
+        advice: "ตรวจสอบเอกสารสัญญาให้ถี่ถ้วน ความรอบคอบคือเกราะป้องกันที่ดีที่สุด"
+      },
+      {
+        number: 12,
+        type: "bad",
+        title: "ดวงไม่ดี (ควรระวัง)",
+        text: "อารมณ์อาจร้อนรุ่มง่าย ระวังคำพูดกระทบกระทั่งกับคนใกล้ชิดหรือเพื่อนร่วมงานจนกลายเป็นเรื่องบานปลายโดยไม่จำเป็น",
+        advice: "นิ่งสงบสยบความเคลื่อนไหว คิดก่อนพูดสามตลบ หากเริ่มรู้สึกโกรธให้ถอยออกมาก่อน"
+      },
+      {
+        number: 15,
+        type: "bad",
+        title: "ดวงไม่ดี (ควรระวัง)",
+        text: "สุขภาพส่งสัญญาณเตือน อาจมีอาการปวดเมื่อย อ่อนล้า หรือพักผ่อนไม่เพียงพอจากการหักโหมทำงานหนักเกินขีดจำกัด",
+        advice: "หันกลับมาดูแลร่างกายอย่างจริงจัง ทานอาหารที่มีประโยชน์ สุขภาพคือสมบัติแท้จริง"
+      },
+      {
+        number: 18,
+        type: "bad",
+        title: "ดวงไม่ดี (ควรระวัง)",
+        text: "สิ่งที่ทุ่มเทอาจสะดุดหยุดชะงักชั่วคราวเพราะปัจจัยภายนอกที่ควบคุมไม่ได้ อย่าเพิ่งท้อแท้หรือฝืนต้านกระแสน้ำแรง",
+        advice: "ถอยหนึ่งก้าวเพื่อมองภาพรวม รอให้น้ำนิ่งแล้วค่อยเดินหน้าใหม่ด้วยปัญญา"
+      },
+      {
+        number: 21,
+        type: "bad",
+        title: "ดวงไม่ดี (ควรระวัง)",
+        text: "ระวังของมีค่าตกหล่นสูญหาย หรือการลืมเลือนนัดหมายสำคัญเพราะความเร่งรีบ วิ่งวุ่นหลายเรื่องจนขาดสมาธิ",
+        advice: "จัดตารางชีวิตให้เป็นระเบียบ มีสติรู้ตัวอยู่กับสิ่งที่กำลังทำในปัจจุบัน"
+      },
+      {
+        number: 23,
+        type: "bad",
+        title: "ดวงไม่ดี (ควรระวัง)",
+        text: "ความรักอาจเกิดช่องว่างจากความไม่เข้าใจ ระวังการนำเรื่องเก่ามาประชดประชันกันจนบั่นทอนความรู้สึกดี ๆ ที่มีให้กัน",
+        advice: "เปิดใจพูดคุยกันด้วยถ้อยคำที่สุภาพ เมตตาและให้อภัยคือยาประสานความสัมพันธ์"
+      },
+      {
+        number: 25,
+        type: "bad",
+        title: "ดวงไม่ดี (ควรระวัง)",
+        text: "การเงินมีเกณฑ์สะดุดเล็กน้อย ระวังการถูกเบี้ยวหนี้หรือรับภาระแทนผู้อื่น ไม่ควรค้ำประกันให้ใครในเวลานี้",
+        advice: "กล้าปฏิเสธอย่างสุภาพเพื่อปกป้องตนเอง อย่าใจอ่อนจนทำให้ตัวเองเดือดร้อน"
+      },
+      {
+        number: 27,
+        type: "bad",
+        title: "ดวงไม่ดี (ควรระวัง)",
+        text: "มีอุปสรรคคอยท้าทายความอดทน อาจรู้สึกโดนบั่นทอนกำลังใจหรือถูกเข้าใจผิด แต่ความจริงจะปรากฏในไม่ช้า",
+        advice: "ตั้งมั่นในศีลธรรมและความซื่อสัตย์ ทองแท้ย่อมไม่กลัวไฟ พ้นมรสุมนี้ไปจะเข้มแข็งขึ้น"
+      }
+    ];
+
+    const thaiNumerals = ['๐', '๑', '๒', '๓', '๔', '๕', '๖', '๗', '๘', '๙'];
+    function toThaiNumeral(num) {
+      return num.toString().split('').map(d => thaiNumerals[parseInt(d)] || d).join('');
+    }
+
+    class WebAudioEffects {
+      constructor() {
+        this.ctx = null;
+        this.enabled = true;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          if (AudioContextClass) {
+            this.ctx = new AudioContextClass();
+          }
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+
+      playRattle() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+
+        try {
+          const now = this.ctx.currentTime;
+          const bufferSize = Math.floor(this.ctx.sampleRate * 0.04);
+          const noiseBuffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+          const data = noiseBuffer.getChannelData(0);
+          for (let i = 0; i < bufferSize; i++) {
+            data[i] = Math.random() * 2 - 1;
+          }
+
+          const noiseNode = this.ctx.createBufferSource();
+          noiseNode.buffer = noiseBuffer;
+
+          const filter = this.ctx.createBiquadFilter();
+          filter.type = 'bandpass';
+          filter.frequency.setValueAtTime(1400 + Math.random() * 500, now);
+          filter.Q.setValueAtTime(5, now);
+
+          const gain = this.ctx.createGain();
+          gain.gain.setValueAtTime(0.5, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+
+          noiseNode.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.ctx.destination);
+          noiseNode.start(now);
+
+          const osc = this.ctx.createOscillator();
+          const oscGain = this.ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(520 + Math.random() * 180, now);
+          oscGain.gain.setValueAtTime(0.35, now);
+          oscGain.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+
+          osc.connect(oscGain);
+          oscGain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.08);
+        } catch (e) {
+          console.warn("Audio rattle error:", e);
+        }
+      }
+
+      playTempleBell() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+
+        try {
+          const now = this.ctx.currentTime;
+          const harmonics = [
+            { freq: 440, gain: 0.35, duration: 2.2 },
+            { freq: 880, gain: 0.20, duration: 1.8 },
+            { freq: 1320, gain: 0.12, duration: 1.4 },
+            { freq: 1760, gain: 0.08, duration: 1.0 }
+          ];
+
+          harmonics.forEach(h => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(h.freq, now);
+
+            gain.gain.setValueAtTime(h.gain, now);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + h.duration);
+
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+
+            osc.start(now);
+            osc.stop(now + h.duration);
+          });
+        } catch (e) {
+          console.warn("Audio bell error:", e);
+        }
+      }
+    }
+
+    const soundSystem = new WebAudioEffects();
+
+    const screens = {
+      home: document.getElementById('home-screen'),
+      shake: document.getElementById('shake-screen'),
+      result: document.getElementById('result-screen'),
+      accepted: document.getElementById('accepted-screen')
+    };
+
+    const btnStart = document.getElementById('btnStart');
+    const btnTapShake = document.getElementById('btnTapShake');
+    const btnIosPermission = document.getElementById('btnIosPermission');
+    const btnAccept = document.getElementById('btnAccept');
+    const btnRetry = document.getElementById('btnRetry');
+    const btnHome = document.getElementById('btnHome');
+    const btnSoundToggle = document.getElementById('btnSoundToggle');
+    const soundIcon = document.getElementById('soundIcon');
+
+    const shakeAssembly = document.getElementById('shakeAssembly');
+    const sticksNest = document.getElementById('sticksNest');
+    const ejectedStick = document.getElementById('ejectedStick');
+    const ejectedStickNumber = document.getElementById('ejectedStickNumber');
+    const shakeProgressFill = document.getElementById('shakeProgressFill');
+    const shakeCountText = document.getElementById('shakeCountText');
+    const sensorStatusDot = document.getElementById('sensorStatusDot');
+    const sensorStatusText = document.getElementById('sensorStatusText');
+
+    const resultStickNum = document.getElementById('resultStickNum');
+    const resultPill = document.getElementById('resultPill');
+    const resultPillIcon = document.getElementById('resultPillIcon');
+    const resultPillText = document.getElementById('resultPillText');
+    const resultText = document.getElementById('resultText');
+    const resultAdvice = document.getElementById('resultAdvice');
+
+    let currentScreen = 'home';
+    let shakeCount = 0;
+    const TARGET_SHAKES = 5;
+    let isDrawing = false;
+    let lastShakeTimestamp = 0;
+    const SHAKE_COOLDOWN_MS = 320;
+    const MOTION_THRESHOLD = 13.0;
+
+    let lastX = null, lastY = null, lastZ = null;
+    let motionListenerBound = false;
+    let hasReceivedMotionEvents = false;
+
+    function showScreen(screenKey) {
+      currentScreen = screenKey;
+      Object.keys(screens).forEach(key => {
+        if (screens[key]) {
+          screens[key].classList.toggle('active', key === screenKey);
+        }
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetShakeState() {
+      shakeCount = 0;
+      isDrawing = false;
+      lastShakeTimestamp = 0;
+      lastX = null;
+      lastY = null;
+      lastZ = null;
+
+      shakeProgressFill.style.width = '0%';
+      shakeCountText.textContent = `เขย่าแล้ว 0 / ${TARGET_SHAKES}`;
+      ejectedStick.classList.remove('active');
+      shakeAssembly.classList.remove('shake-active');
+      shakeAssembly.style.transform = 'rotate(0deg)';
+      btnTapShake.disabled = false;
+    }
+
+    function registerShake() {
+      if (isDrawing || currentScreen !== 'shake') return;
+
+      const now = performance.now();
+      if (now - lastShakeTimestamp < SHAKE_COOLDOWN_MS) {
+        return;
+      }
+      lastShakeTimestamp = now;
+
+      shakeCount++;
+      const percent = Math.min((shakeCount / TARGET_SHAKES) * 100, 100);
+      shakeProgressFill.style.width = `${percent}%`;
+      shakeCountText.textContent = `เขย่าแล้ว ${shakeCount} / ${TARGET_SHAKES}`;
+
+      shakeAssembly.classList.remove('shake-active');
+      void shakeAssembly.offsetWidth;
+      shakeAssembly.classList.add('shake-active');
+
+      soundSystem.playRattle();
+      if ('vibrate' in navigator) {
+        try { navigator.vibrate(45); } catch(e) {}
+      }
+
+      if (shakeCount >= TARGET_SHAKES) {
+        triggerFortuneSelection();
+      }
+    }
+
+    function handleDeviceMotion(event) {
+      if (currentScreen !== 'shake') return;
+
+      const acc = event.accelerationIncludingGravity || event.acceleration;
+      if (!acc || acc.x === null || acc.y === null || acc.z === null) return;
+
+      if (!hasReceivedMotionEvents) {
+        hasReceivedMotionEvents = true;
+        sensorStatusDot.classList.add('active');
+        sensorStatusText.textContent = "ตรวจพบการเคลื่อนไหว (เขย่าเพื่อเสี่ยงทาย)";
+      }
+
+      const x = acc.x;
+      const y = acc.y;
+      const z = acc.z;
+
+      if (!isDrawing) {
+        const tiltAngle = Math.max(-16, Math.min(16, x * 1.6));
+        shakeAssembly.style.transform = `rotate(${-tiltAngle}deg)`;
+      }
+
+      if (lastX === null) {
+        lastX = x;
+        lastY = y;
+        lastZ = z;
+        return;
+      }
+
+      const deltaX = Math.abs(x - lastX);
+      const deltaY = Math.abs(y - lastY);
+      const deltaZ = Math.abs(z - lastZ);
+      const deltaTotal = deltaX + deltaY + deltaZ;
+
+      if (deltaTotal >= MOTION_THRESHOLD) {
+        registerShake();
+      }
+
+      lastX = x;
+      lastY = y;
+      lastZ = z;
+    }
+
+    function setupMotionSensor() {
+      if (typeof window.DeviceMotionEvent === 'undefined') {
+        sensorStatusText.textContent = "ไม่มีเซ็นเซอร์ สามารถแตะปุ่มด้านล่างเพื่อเขย่า";
+        return;
+      }
+
+      if (typeof DeviceMotionEvent.requestPermission === 'function') {
+        DeviceMotionEvent.requestPermission()
+          .then(permissionState => {
+            if (permissionState === 'granted') {
+              btnIosPermission.style.display = 'none';
+              bindMotionListener();
+              sensorStatusText.textContent = "พร้อมเขย่าโทรศัพท์ 4–5 ครั้ง";
+            } else {
+              btnIosPermission.style.display = 'block';
+              sensorStatusText.textContent = "ไม่ได้รับอนุญาตเซ็นเซอร์ โปรดแตะปุ่มด้านล่าง";
+            }
+          })
+          .catch(() => {
+            btnIosPermission.style.display = 'block';
+            sensorStatusText.textContent = "แตะแถบสีเหลืองเพื่อเปิดเซ็นเซอร์เขย่า";
+          });
+      } else {
+        bindMotionListener();
+      }
+    }
+
+    function bindMotionListener() {
+      if (!motionListenerBound) {
+        window.addEventListener('devicemotion', handleDeviceMotion, { passive: true });
+        motionListenerBound = true;
+      }
+    }
+
+    function triggerFortuneSelection() {
+      isDrawing = true;
+      btnTapShake.disabled = true;
+
+      const chosenIndex = Math.floor(Math.random() * fortunes.length);
+      const chosenFortune = fortunes[chosenIndex];
+
+      ejectedStickNumber.textContent = toThaiNumeral(chosenFortune.number);
+
+      setTimeout(() => {
+        shakeAssembly.classList.remove('shake-active');
+        shakeAssembly.style.transform = 'rotate(0deg)';
+        ejectedStick.classList.add('active');
+
+        soundSystem.playTempleBell();
+        if ('vibrate' in navigator) {
+          try { navigator.vibrate([60, 40, 90]); } catch(e) {}
+        }
+      }, 350);
+
+      setTimeout(() => {
+        displayFortuneResult(chosenFortune);
+      }, 1450);
+    }
+
+    function displayFortuneResult(fortune) {
+      resultStickNum.textContent = `เซียมซีใบที่ ${toThaiNumeral(fortune.number)} (${fortune.number})`;
+      resultText.textContent = fortune.text;
+      resultAdvice.textContent = fortune.advice;
+
+      resultPill.className = 'fortune-pill';
+
+      if (fortune.type === 'good') {
+        resultPill.classList.add('fortune-good');
+        resultPillIcon.textContent = "✨";
+        resultPillText.textContent = "ดวงดี";
+      } else if (fortune.type === 'neutral') {
+        resultPill.classList.add('fortune-neutral');
+        resultPillIcon.textContent = "☀️";
+        resultPillText.textContent = "ดวงปานกลาง";
+      } else {
+        resultPill.classList.add('fortune-bad');
+        resultPillIcon.textContent = "🛡️";
+        resultPillText.textContent = "ดวงไม่ดี (ควรระวัง)";
+      }
+
+      showScreen('result');
+    }
+
+    btnStart.addEventListener('click', () => {
+      soundSystem.init();
+      resetShakeState();
+      showScreen('shake');
+      setupMotionSensor();
+    });
+
+    btnIosPermission.addEventListener('click', () => {
+      soundSystem.init();
+      if (typeof DeviceMotionEvent.requestPermission === 'function') {
+        DeviceMotionEvent.requestPermission()
+          .then(state => {
+            if (state === 'granted') {
+              btnIosPermission.style.display = 'none';
+              bindMotionListener();
+              sensorStatusText.textContent = "เซ็นเซอร์พร้อมทำงาน เขย่าโทรศัพท์ได้เลย!";
+            } else {
+              sensorStatusText.textContent = "แตะปุ่ม 'แตะเพื่อเขย่า' ด้านล่างได้เลย";
+            }
+          })
+          .catch(() => {
+            sensorStatusText.textContent = "แตะปุ่ม 'แตะเพื่อเขย่า' ด้านล่างได้เลย";
+          });
+      }
+    });
+
+    btnTapShake.addEventListener('click', () => {
+      registerShake();
+    });
+
+    btnAccept.addEventListener('click', () => {
+      showScreen('accepted');
+    });
+
+    btnRetry.addEventListener('click', () => {
+      resetShakeState();
+      showScreen('shake');
+    });
+
+    btnHome.addEventListener('click', () => {
+      resetShakeState();
+      showScreen('home');
+    });
+
+    btnSoundToggle.addEventListener('click', () => {
+      soundSystem.enabled = !soundSystem.enabled;
+      soundIcon.textContent = soundSystem.enabled ? '🔊' : '🔇';
+      btnSoundToggle.setAttribute('aria-label', soundSystem.enabled ? 'ปิดเสียงจำลอง' : 'เปิดเสียงจำลอง');
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      showScreen('home');
+    });
+  </script>
+</body>
+</html>
